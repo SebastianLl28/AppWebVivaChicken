@@ -37,7 +37,7 @@ const CardProduct = ({ product }) => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => addCarrito(product.id)}
+              onClick={() => addCarrito(product)}
             >
               Agregar Carrito
             </Button>

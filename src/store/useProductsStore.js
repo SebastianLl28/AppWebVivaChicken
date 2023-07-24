@@ -5,20 +5,21 @@ export const useProductsStore = create(
   persist(
     (set, get) => ({
       carrito: [], // []
+
       //? Add product
-      addCarrito: (id) => {
+      addCarrito: (producto) => {
         const list = get().carrito;
-        const findProduct = list.find((element) => element.id === id);
+        const findProduct = list.find((element) => element.id === producto.id);
 
         // * Si no se encuentra el producto osea de que sea primera ves que se agregue se le agregará un count
         if (!findProduct) {
           return set((state) => ({
-            carrito: [...state.carrito, { id, count: 1 }],
+            carrito: [...state.carrito, { ...producto, count: 1 }],
           }));
         }
 
         const newList = list.map((element) => {
-          if (element.id === id) {
+          if (element.id === producto.id) {
             element.count += 1;
           }
           return element;
@@ -68,6 +69,13 @@ export const useProductsStore = create(
         return set((state) => ({
           carrito: newList,
         }));
+      },
+      getTotals: () => {
+        let contador = 0;
+        get().carrito.map((element) => {
+          contador += element.precio * element.count;
+        });
+        return contador;
       },
     }),
     {

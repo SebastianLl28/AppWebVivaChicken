@@ -8,6 +8,8 @@ import { Grid, IconButton, List, Typography } from "@mui/material";
 import { useProductsStore } from "../store/useProductsStore";
 import CardShoppingCar from "./CardShoppingCar";
 import { useState } from "react";
+import { useEffect } from "react";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
 const ShoppingCar = () => {
   const { isOpen, toggle } = useOpenCarStore();
@@ -16,18 +18,34 @@ const ShoppingCar = () => {
     toggle(!isOpen);
   };
 
-  const { carrito } = useProductsStore();
+  const { carrito, getTotals, clearCarrito } = useProductsStore();
+
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    setTotal(getTotals());
+  }, [carrito]);
 
   const list = () => (
     <Box sx={{ width: 500 }} role="presentation" position="relative">
-      <IconButton
-        onClick={() => toggle(false)}
-        title="Cerrar"
-        sx={{ float: "right", zIndex: 999, position: "relative" }}
-      >
-        <CloseIcon />
-      </IconButton>
-
+      <Box display="flex" justifyContent="space-between">
+        <IconButton
+          onClick={() => clearCarrito()}
+          title="Cerrar"
+          color="error"
+          sx={{ zIndex: 999, position: "relative", paddingLeft: 1.9 }}
+        >
+          <RemoveShoppingCartIcon />
+          <Typography variant="body2">Borrar todo</Typography>
+        </IconButton>
+        <IconButton
+          onClick={() => toggle(false)}
+          title="Cerrar"
+          sx={{ zIndex: 999, position: "relative" }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </Box>
       <List>
         {carrito.map((registro, index) => (
           <CardShoppingCar
@@ -55,12 +73,18 @@ const ShoppingCar = () => {
               Total:
             </Typography>
             <Typography variant="h4" fontWeight="bold">
-              S/.
+              S/. {total}
             </Typography>
           </Grid>
         </Grid>
         <Grid item width="100%">
-          <Button variant="contained" color="primary" fullWidth size="large">
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            size="large"
+            disabled={total === 0 ? true : false}
+          >
             Comprar
           </Button>
         </Grid>

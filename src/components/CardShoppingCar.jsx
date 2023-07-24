@@ -12,35 +12,28 @@ import {
   styled,
 } from "@mui/material";
 import { useProductsStore } from "../store/useProductsStore";
-import { useTotalCar } from "../store/useTotalCar";
 import { useEffect } from "react";
 
-const CardShoppingCar = ({ registro: { id, count }, index }) => {
+// const CardShoppingCar = ({ registro: { id, count }, index }) => {
+const CardShoppingCar = ({ registro, index }) => {
   const { addCarrito, substractProduct, restarCarrito } = useProductsStore();
-
-  const { data, isError, isLoading } = useQuery(
-    ["getById", id],
-    getProductById
-  );
-
-  if (isLoading) return <p>Cargando...</p>;
 
   return (
     <>
       {index !== 0 && <Divider />}
       {/* <Divider /> */}
-      <ListItem key={data.id} disablePadding>
+      <ListItem key={registro.id} disablePadding>
         <ListItemButton sx={{ display: "flex", gap: 1 }} disableTouchRipple>
           <ListItemIcon sx={{ position: "relative" }}>
             <Box
               component="img"
-              src={data.imagen}
+              src={registro.imagen}
               alt="product"
               width={160}
               borderRadius={3}
             />
             <Chip
-              label={`$ ${data.precio}`}
+              label={`$ ${registro.precio}`}
               color="primary"
               sx={{ position: "absolute", top: -10, left: -10 }}
             />
@@ -56,11 +49,11 @@ const CardShoppingCar = ({ registro: { id, count }, index }) => {
             {/*! ESTO NO ES */}
             <Grid item xs={9}>
               <Typography variant="h5" fontWeight="bold">
-                {data.nombre}
+                {registro.nombre}
               </Typography>
               <Grid item xs={11} alignItems={"center"}>
-                <Typography noWrap title={data.descripcion}>
-                  {data.descripcion}
+                <Typography noWrap title={registro.descripcion}>
+                  {registro.descripcion}
                 </Typography>
               </Grid>
               <Grid container alignItems="center" columnGap={1}>
@@ -70,18 +63,18 @@ const CardShoppingCar = ({ registro: { id, count }, index }) => {
                   paddingY={0.5}
                   fontWeight={"bold"}
                   component="div"
-                  onClick={() => restarCarrito(id)}
+                  onClick={() => restarCarrito(registro.id)}
                 >
                   -
                 </Box>
-                <Typography>{count}</Typography>
+                <Typography>{registro.count}</Typography>
                 <Box
                   bgcolor="#70ad63"
                   paddingX={1.2}
                   paddingY={0.5}
                   fontWeight={"bold"}
                   component="div"
-                  onClick={() => addCarrito(id)}
+                  onClick={() => addCarrito(registro)}
                 >
                   +
                 </Box>
@@ -89,7 +82,7 @@ const CardShoppingCar = ({ registro: { id, count }, index }) => {
             </Grid>
             <Grid item xs={3}>
               <Typography variant="h6" fontWeight="bold">
-                S/. {data.precio * count}
+                S/. {registro.precio * registro.count}
               </Typography>
             </Grid>
             <Box
@@ -102,7 +95,7 @@ const CardShoppingCar = ({ registro: { id, count }, index }) => {
               borderRadius={"50%"}
               color={"white"}
               component="div"
-              onClick={() => substractProduct(id)}
+              onClick={() => substractProduct(registro.id)}
             >
               x
             </Box>
