@@ -6,23 +6,50 @@ import { useState } from "react";
 import ModalDialog from "./components/ModalDialog";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
-import { set } from "react-hook-form";
-import { useEffect } from "react";
 import ModalEditDialog from "./components/ModalEditDialog";
 
 const UserPage = () => {
   // Data grid
   const { data, isLoading, isError } = useQuery(["getUsers"], getUsers);
+  // const columns = [
+  //   { field: "id", headerName: "id", flex: 0.04 },
+  //   { field: "name", headerName: "nombre", flex: 0.11 },
+  //   { field: "lastname", headerName: "apellido", flex: 0.13 },
+  //   { field: "email", headerName: "correo", flex: 0.17 },
+  //   { field: "password", headerName: "contraseña", flex: 0.1 },
+  //   { field: "numphone", headerName: "telefono", flex: 0.1 },
+  //   { field: "dni", headerName: "dni", flex: 0.13 },
+  //   { field: "enabled", headerName: "activo", flex: 0.08 },
+  //   { field: "id_cargo", headerName: "id_cargo", flex: 0.08 },
+  //   {
+  //     field: "actions",
+  //     headerName: "Actions",
+  //     flex: 0.05,
+  //     renderCell: (params) => (
+  //       <Box display="flex" gap={1.5}>
+  //         <CreateIcon
+  //           sx={{ cursor: "pointer" }}
+  //           color="warning"
+  //           onClick={() => handleOpenEdit(params.row)}
+  //         >
+  //           Eliminar
+  //         </CreateIcon>
+  //         <DeleteIcon
+  //           sx={{ cursor: "pointer" }}
+  //           color="error"
+  //           onClick={() => handleDelete(params.row)}
+  //         >
+  //           Editar
+  //         </DeleteIcon>
+  //       </Box>
+  //     ),
+  //   },
+  // ];
   const columns = [
     { field: "id", headerName: "id", flex: 0.04 },
-    { field: "name", headerName: "nombre", flex: 0.11 },
-    { field: "lastname", headerName: "apellido", flex: 0.13 },
-    { field: "email", headerName: "correo", flex: 0.17 },
-    { field: "password", headerName: "contraseña", flex: 0.1 },
-    { field: "numphone", headerName: "telefono", flex: 0.1 },
-    { field: "dni", headerName: "dni", flex: 0.13 },
-    { field: "enabled", headerName: "activo", flex: 0.08 },
-    { field: "id_cargo", headerName: "id_cargo", flex: 0.08 },
+    { field: "username", headerName: "nombre de usuario", flex: 0.11 },
+    { field: "password", headerName: "contraseña", flex: 0.13 },
+    { field: "estado", headerName: "estado", flex: 0.08 },
     {
       field: "actions",
       headerName: "Actions",
@@ -47,6 +74,7 @@ const UserPage = () => {
       ),
     },
   ];
+  //
 
   //* Add user
   const [open, setOpen] = useState(false);

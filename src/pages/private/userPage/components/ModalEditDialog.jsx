@@ -15,10 +15,9 @@ import {
   TextField,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { putUser } from "../../../../api/client/userAxios";
-import { useEffect } from "react";
 
 const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
   const handleClose = () => {
@@ -65,7 +64,6 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
 
   useEffect(() => {
     if (openEdit) {
-      console.log(userEdit);
       reset({
         name: userEdit.name,
         lastname: userEdit.lastname,

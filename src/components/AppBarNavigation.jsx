@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Link as LinkRouter } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -22,15 +21,12 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import CategoryIcon from "@mui/icons-material/Category";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
-import { Outlet } from "react-router-dom";
-import MailIcon from "@mui/icons-material/Mail";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import { useState } from "react";
+import BadgeIcon from "@mui/icons-material/Badge";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
 
 const drawerWidth = 240;
 
@@ -120,34 +116,41 @@ const AppBarNavigation = ({ children }) => {
   const navigationAdmin = [
     {
       id: 1,
+      name: "cargos",
+      title: "Gestion de Cargos para los Trabajadores",
+      path: "/cargosapp",
+      icon: BadgeIcon,
+    },
+    {
+      id: 2,
       name: "usuarios",
       title: "Gestion de Usuarios",
       path: "/userapp",
       icon: PersonIcon,
     },
     {
-      id: 2,
+      id: 3,
       name: "productos",
       title: "Gestion de Productos",
       path: "/productapp",
       icon: FastfoodIcon,
     },
     {
-      id: 3,
+      id: 4,
       name: "clientes",
       title: "Gestion de Clientes",
       path: "/clientapp",
       icon: AssignmentIndIcon,
     },
     {
-      id: 4,
+      id: 5,
       name: "categorias",
       title: "Gestion de Categorias",
       path: "/categoryapp",
       icon: CategoryIcon,
     },
     {
-      id: 5,
+      id: 6,
       name: "logout",
       path: "/",
       icon: LogoutIcon,
@@ -172,7 +175,6 @@ const AppBarNavigation = ({ children }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            {/* Gestor de Usuario */}
             {
               navigationAdmin.find((item) => item.path === location.pathname)
                 .title
@@ -220,28 +222,6 @@ const AppBarNavigation = ({ children }) => {
               </Link>
             ))}
           </ListItem>
-          {/* {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))} */}
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

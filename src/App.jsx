@@ -8,8 +8,12 @@ import {
   Login,
   Register,
 } from "./pages/public";
-import PrivatePage from "./pages/private/PrivatePage";
-import UserPage from "./pages/private/userPage/UserPage";
+import {
+  CargoPage,
+  CategoryPage,
+  UserPage,
+  PrivatePage,
+} from "./pages/private";
 
 const App = () => {
   return (
@@ -29,7 +33,8 @@ const App = () => {
           <Route path="/userapp" element={<UserPage />} />
           <Route path="/productapp" element={<p>this is productapp</p>} />
           <Route path="/clientapp" element={<p>this is clientapp</p>} />
-          <Route path="/categoryapp" element={<p>this is categoryapp</p>} />
+          <Route path="/categoryapp" element={<CategoryPage />} />
+          <Route path="/cargosapp" element={<CargoPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

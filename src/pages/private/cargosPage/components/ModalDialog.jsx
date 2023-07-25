@@ -15,28 +15,22 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { postUser, putUser } from "../../../../api/client/userAxios";
+// import { postUser, putUser } from "../../../../api/client/userAxios";
+import { postCargo } from "../../../../api/cargosAxios";
 
 const ModalDialog = ({ open, setOpen }) => {
+  const { register, handleSubmit, reset } = useForm();
+  const queryClient = useQueryClient();
+
   const handleClose = () => {
-    setAge("");
     setOpen(false);
     reset();
   };
 
-  const [age, setAge] = useState("");
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
-  //function form modal
-  const { register, handleSubmit, reset } = useForm();
-  const queryClient = useQueryClient();
-
-  const createUser = useMutation({
-    mutationFn: (data) => postUser(data),
+  const createCargo = useMutation({
+    mutationFn: (data) => postCargo(data),
     onSuccess: () => {
-      queryClient.invalidateQueries("getUsers");
+      queryClient.invalidateQueries("getCargos");
     },
     onError: () => {
       alert("Error al crear usuario");
@@ -44,9 +38,8 @@ const ModalDialog = ({ open, setOpen }) => {
   });
 
   const onSubmit = (data) => {
-    const user = { enabled: true, ...data };
     try {
-      createUser.mutate(user);
+      createCargo.mutate(data);
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +54,7 @@ const ModalDialog = ({ open, setOpen }) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <DialogTitle textAlign="center" variant="h4" fontWeight="500">
-        Agregar
+        Agregar Cargo
       </DialogTitle>
       <DialogContent>
         <Grid container spacing={1.5} width="100%" height="100%" margin={0}>
@@ -69,36 +62,12 @@ const ModalDialog = ({ open, setOpen }) => {
             <TextField
               autoFocus
               margin="dense"
-              label="Nombre de usuario"
+              label="Nombre del Cargo"
               type="text"
               fullWidth
               variant="outlined"
-              {...register("username", { required: true })}
+              {...register("nombre", { required: true })}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              margin="dense"
-              label="Password"
-              type="password"
-              fullWidth
-              variant="outlined"
-              {...register("password", { required: true })}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Cargo</InputLabel>
-              <Select
-                label="Cargo"
-                value={age}
-                {...register("id_cargo", { required: true })}
-                onChange={handleChange}
-              >
-                <MenuItem value="1">Usuario</MenuItem>
-                <MenuItem value="2">Administrador</MenuItem>
-              </Select>
-            </FormControl>
           </Grid>
         </Grid>
       </DialogContent>
