@@ -15,7 +15,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { postUser, putUser } from "../../../../api/client/userAxios";
+import { postUser } from "../../../../api/client/userAxios";
 
 const ModalDialog = ({ open, setOpen }) => {
   const handleClose = () => {
