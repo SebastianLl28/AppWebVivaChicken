@@ -6,15 +6,15 @@ export const getUsers = async () => {
 };
 
 export const postUser = async (user) => {
-  const res = await instanceUser.post("", user);
+  const res = await instanceUser.post("/create", user);
   return res.data;
 };
 
 export const deleteUser = async (id) => {
-  const res = await instanceUser.delete(`/${id}`);
+  const res = await instanceUser.delete(`/delete/${id}`);
   return res.data;
 };
 
 export const putUser = async (user) => {
-  await instanceUser.put(`/${user.id}`, user);
+  await instanceUser.put(`/delete/${user.id}`, user);
 };

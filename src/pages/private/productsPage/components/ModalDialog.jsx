@@ -4,13 +4,17 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { postCategory } from "../../../../api/categoryAxios";
+import { postProduct } from "../../../../api/productsAxios";
+import { useState } from "react";
 
 const ModalDialog = ({ open, setOpen }) => {
   const handleClose = () => {
@@ -18,14 +22,19 @@ const ModalDialog = ({ open, setOpen }) => {
     reset();
   };
 
+  const [age, setAge] = useState("");
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
   //function form modal
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
 
-  const createCategory = useMutation({
-    mutationFn: (data) => postCategory(data),
+  const createProduct = useMutation({
+    mutationFn: (data) => postProduct(data),
     onSuccess: () => {
-      queryClient.invalidateQueries("getCategory");
+      queryClient.invalidateQueries("getProduct");
     },
     onError: () => {
       alert("Error al crear usuario");
@@ -34,7 +43,7 @@ const ModalDialog = ({ open, setOpen }) => {
 
   const onSubmit = (data) => {
     try {
-      createCategory.mutate(data);
+      createProduct.mutate(data);
     } catch (error) {
       console.log(error);
     }
@@ -66,14 +75,49 @@ const ModalDialog = ({ open, setOpen }) => {
           </Grid>
           <Grid item xs={12}>
             <TextField
+              autoFocus
               margin="dense"
-              label="Imagen"
+              label="Descripción"
               type="text"
               fullWidth
               variant="outlined"
-              {...register("imagen", { required: true })}
+              {...register("descripcion", { required: true })}
             />
           </Grid>
+          <Grid item xs={6}>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="precio"
+              type="number"
+              fullWidth
+              variant="outlined"
+              {...register("precio", { required: true })}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="stock"
+              type="number"
+              fullWidth
+              variant="outlined"
+              {...register("stock", { required: true })}
+            />
+          </Grid>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Cargo</InputLabel>
+            <Select
+              label="Cargo"
+              value={age}
+              {...register("id_cargo", { required: true })}
+              onChange={handleChange}
+            >
+              <MenuItem value="1">Usuario</MenuItem>
+              <MenuItem value="2">Administrador</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
       </DialogContent>
       <DialogActions>

@@ -12,10 +12,12 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { postUser } from "../../../../api/client/userAxios";
+import { useEffect } from "react";
+import { getCargos } from "../../../../api/cargosAxios";
 
 const ModalDialog = ({ open, setOpen }) => {
   const handleClose = () => {
@@ -44,7 +46,7 @@ const ModalDialog = ({ open, setOpen }) => {
   });
 
   const onSubmit = (data) => {
-    const user = { enabled: true, ...data };
+    const user = { ...data, estado: true, cargo: { id: data.id_cargo } };
     try {
       createUser.mutate(user);
     } catch (error) {
@@ -52,6 +54,10 @@ const ModalDialog = ({ open, setOpen }) => {
     }
     handleClose();
   };
+
+  // * Traer todas los cargos
+
+  const { data: cargos, isLoading, error } = useQuery(["getCargos"], getCargos);
 
   return (
     <Dialog
@@ -95,8 +101,11 @@ const ModalDialog = ({ open, setOpen }) => {
                 {...register("id_cargo", { required: true })}
                 onChange={handleChange}
               >
-                <MenuItem value="1">Usuario</MenuItem>
-                <MenuItem value="2">Administrador</MenuItem>
+                {cargos?.map((cargo) => (
+                  <MenuItem key={cargo.id} value={cargo.id}>
+                    {cargo.nombre}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>

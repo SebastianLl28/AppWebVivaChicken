@@ -54,8 +54,8 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
 
   const onSubmit = (data) => {
     try {
-      // console.log(data);
-      editUser.mutate({ id: userEdit.id, ...data });
+      console.log(data);
+      // editUser.mutate({ id: userEdit.id, ...data });
       handleClose();
     } catch (err) {
       console.log(err);
@@ -65,16 +65,12 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
   useEffect(() => {
     if (openEdit) {
       reset({
-        name: userEdit.name,
-        lastname: userEdit.lastname,
-        email: userEdit.email,
+        username: userEdit.username,
         password: userEdit.password,
-        numphone: userEdit.numphone,
-        dni: userEdit.dni,
-        id_cargo: userEdit.id_cargo,
-        // enabled: userEdit.enabled,
+        estado: userEdit.estado,
       });
-      setAge(userEdit.id_cargo);
+      console.log("agasas");
+      console.log(userEdit);
     }
   }, [openEdit]);
 
@@ -98,7 +94,7 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
               type="text"
               fullWidth
               variant="outlined"
-              {...register("name", { required: true })}
+              {...register("username", { required: true })}
             />
           </Grid>
           <Grid item xs={6}>
@@ -108,52 +104,11 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
               type="text"
               fullWidth
               variant="outlined"
-              {...register("lastname", { required: true })}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              margin="dense"
-              label="Correo"
-              type="email"
-              fullWidth
-              variant="outlined"
-              {...register("email", { required: true })}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              margin="dense"
-              label="Password"
-              type="password"
-              fullWidth
-              variant="outlined"
               {...register("password", { required: true })}
             />
           </Grid>
-          <Grid item xs={6}>
-            <TextField
-              margin="dense"
-              label="Numero de telefono"
-              type="number"
-              fullWidth
-              variant="outlined"
-              {...register("numphone", { required: true })}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              margin="dense"
-              label="Dni"
-              type="number"
-              fullWidth
-              variant="outlined"
-              sx={{ marginBottom: ".8rem" }}
-              {...register("dni", { required: true })}
-            />
-          </Grid>
           <Grid item xs={12}>
-            <FormControl fullWidth>
+            {/* <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Cargo</InputLabel>
               <Select
                 label="Cargo"
@@ -164,14 +119,14 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
                 <MenuItem value="1">Usuario</MenuItem>
                 <MenuItem value="2">Administrador</MenuItem>
               </Select>
-            </FormControl>
+            </FormControl> */}
           </Grid>
           <Grid item xs={12}>
             <FormControlLabel
               control={
                 <Checkbox
-                  {...register("enabled", { required: false })}
-                  defaultChecked={userEdit?.enabled ? true : false}
+                  {...register("estado", { required: false })}
+                  defaultChecked={userEdit?.estado ? true : false}
                 />
               }
               label="Estado"

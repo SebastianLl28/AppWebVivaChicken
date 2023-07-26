@@ -1,25 +1,27 @@
-import { Box, Button } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteUser, getUsers } from "../../../api/client/userAxios";
 import DataGrid from "../../../components/DataGrid";
-import { useState } from "react";
-import ModalDialog from "./components/ModalDialog";
+import { Box, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
+import { useState } from "react";
+import ModalDialog from "./components/ModalDialog";
 import ModalEditDialog from "./components/ModalEditDialog";
+import { getProducts } from "../../../api/productsAxios";
 
-const UserPage = () => {
-  const { data, isLoading, isError } = useQuery(["getUsers"], getUsers);
+const ProductsAppPage = () => {
+  const { data, isLoading, isError } = useQuery(["getProduct"], getProducts);
 
   const columns = [
-    { field: "id", headerName: "id", flex: 0.04 },
-    { field: "username", headerName: "nombre de usuario", flex: 0.11 },
-    { field: "password", headerName: "contraseña", flex: 0.13 },
-    { field: "estado", headerName: "estado", flex: 0.08 },
+    { field: "id", headerName: "Id", flex: 0.1 },
+    { field: "nombre", headerName: "Nombre", flex: 0.2 },
+    { field: "descripcion", headerName: "Descripción", flex: 0.3 },
+    { field: "precio", headerName: "Precio", flex: 0.1 },
+    { field: "stock", headerName: "Stock", flex: 0.1 },
+    { field: "imagen", headerName: "Imagen", flex: 0.2 },
     {
       field: "actions",
       headerName: "Actions",
-      flex: 0.05,
+      flex: 0.1,
       renderCell: (params) => (
         <Box display="flex" gap={1.5}>
           <CreateIcon
@@ -41,47 +43,48 @@ const UserPage = () => {
     },
   ];
 
-  //* Add user
+  // * add Product
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
 
+  //* delete Product
   const queryClient = useQueryClient();
-  const fetchdeleteUser = useMutation({
-    mutationFn: (id) => deleteUser(id),
-    onSuccess: () => queryClient.invalidateQueries("getUsers"),
+
+  const fetchDeleteProduct = useMutation({
+    mutationFn: (id) => deleteProduct(id),
+    onSuccess: () => queryClient.invalidateQueries("getProduct"),
     onError: (error) => console.log(error),
   });
 
-  //* Delete user
   const handleDelete = ({ id }) => {
     try {
-      fetchdeleteUser.mutate(id);
+      fetchDeleteProduct.mutate(id);
     } catch (error) {
       console.log(error);
     }
   };
 
-  //* Edit User
+  //* Edit Product
   const [openEdit, setOpenEdit] = useState(false);
-  const [userEdit, setUserEdit] = useState(null);
+  const [productEdit, setProductEdit] = useState(null);
   const handleOpenEdit = (data) => {
     setOpenEdit(true);
-    setUserEdit(data);
+    setProductEdit(data);
   };
 
   return (
-    <Box width="100%" height="50rem" sx={{ padding: "1rem" }}>
+    <Box height="50rem" sx={{ padding: "1rem" }}>
       <Button
         variant="contained"
         color="primary"
-        sx={{ marginBottom: "1rem" }}
         onClick={handleOpen}
+        sx={{ marginBottom: "1rem" }}
       >
-        Agregar Usuario
+        Agergar Producto
       </Button>
       <DataGrid
-        data={data}
         columns={columns}
+        data={data}
         isLoading={isLoading}
         isError={isError}
       />
@@ -89,11 +92,11 @@ const UserPage = () => {
       <ModalEditDialog
         openEdit={openEdit}
         setOpenEdit={setOpenEdit}
-        userEdit={userEdit}
-        setUserEdit={setUserEdit}
+        productEdit={productEdit}
+        setProductEdit={setProductEdit}
       />
     </Box>
   );
 };
 
-export default UserPage;
+export default ProductsAppPage;

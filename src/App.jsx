@@ -14,6 +14,7 @@ import {
   UserPage,
   PrivatePage,
 } from "./pages/private";
+import ProductsAppPage from "./pages/private/productsPage/ProductsAppPage";
 
 const App = () => {
   return (
@@ -31,7 +32,7 @@ const App = () => {
 
         <Route element={<PrivatePage />}>
           <Route path="/userapp" element={<UserPage />} />
-          <Route path="/productapp" element={<p>this is productapp</p>} />
+          <Route path="/productapp" element={<ProductsAppPage />} />
           <Route path="/clientapp" element={<p>this is clientapp</p>} />
           <Route path="/categoryapp" element={<CategoryPage />} />
           <Route path="/cargosapp" element={<CargoPage />} />
