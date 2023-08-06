@@ -1,26 +1,30 @@
-import { Box, Button } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteUser, getUsers } from "../../../api/client/userAxios";
 import DataGrid from "../../../components/DataGrid";
-import { useState } from "react";
-import ModalDialog from "./components/ModalDialog";
+import { Box, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
+import { useState } from "react";
+import ModalDialog from "./components/ModalDialog";
 import ModalEditDialog from "./components/ModalEditDialog";
+import { deleteClientes, getClientes } from "../../../api/clientesAxios";
 
-const UserPage = () => {
-  const { data, isLoading, isError } = useQuery(["getUsers"], getUsers);
+const ClientesPage = () => {
+  const { data, isLoading, isError } = useQuery(["getClientes"], getClientes);
 
   const columns = [
-    { field: "id", headerName: "id", flex: 0.04 },
-    { field: "username", headerName: "nombre de usuario", flex: 0.11 },
-    { field: "password", headerName: "contraseña", flex: 0.13 },
-    { field: "cargo", headerName: "cargo", flex: 0.13, renderCell: (params) => params.row.cargo.nombre } ,
-    { field: "estado", headerName: "estado", flex: 0.08 },
+    { field: "id", headerName: "Id", flex: 0.05 },
+    { field: "nombre", headerName: "Nombre", flex: 0.1 },
+    { field: "apellido", headerName: "Apellido", flex: 0.1 },
+    { field: "email", headerName: "Email", flex: 0.1 },
+    { field: "password", headerName: "Password", flex: 0.1 },
+    { field: "telefono", headerName: "Telefono", flex: 0.1 },
+    { field: "direccion", headerName: "Direccion", flex: 0.1 },
+    { field: "dni", headerName: "Dni", flex: 0.1 },
+    { field: "ruc", headerName: "Ruc", flex: 0.1 },
     {
       field: "actions",
       headerName: "Actions",
-      flex: 0.05,
+      flex: 0.1,
       renderCell: (params) => (
         <Box display="flex" gap={1.5}>
           <CreateIcon
@@ -42,47 +46,48 @@ const UserPage = () => {
     },
   ];
 
-  //* Add user
+  // * add Cliente
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
 
+  //* delete Cliente
   const queryClient = useQueryClient();
-  const fetchdeleteUser = useMutation({
-    mutationFn: (id) => deleteUser(id),
-    onSuccess: () => queryClient.invalidateQueries("getUsers"),
+
+  const fetchDeleteClientes = useMutation({
+    mutationFn: (id) => deleteClientes(id),
+    onSuccess: () => queryClient.invalidateQueries("getClientes"),
     onError: (error) => console.log(error),
   });
 
-  //* Delete user
   const handleDelete = ({ id }) => {
     try {
-      fetchdeleteUser.mutate(id);
+      fetchDeleteClientes.mutate(id);
     } catch (error) {
       console.log(error);
     }
   };
 
-  //* Edit User
+  //* Edit Cliente
   const [openEdit, setOpenEdit] = useState(false);
-  const [userEdit, setUserEdit] = useState(null);
+  const [clienteEdit, setClienteEdit] = useState(null);
   const handleOpenEdit = (data) => {
     setOpenEdit(true);
-    setUserEdit(data);
+    setClienteEdit(data);
   };
 
   return (
-    <Box width="100%" height="50rem" sx={{ padding: "1rem" }}>
+    <Box height="50rem" sx={{ padding: "1rem" }}>
       <Button
         variant="contained"
         color="primary"
-        sx={{ marginBottom: "1rem" }}
         onClick={handleOpen}
+        sx={{ marginBottom: "1rem" }}
       >
-        Agregar Usuario
+        Agergar Clienteo
       </Button>
       <DataGrid
-        data={data}
         columns={columns}
+        data={data}
         isLoading={isLoading}
         isError={isError}
       />
@@ -90,11 +95,11 @@ const UserPage = () => {
       <ModalEditDialog
         openEdit={openEdit}
         setOpenEdit={setOpenEdit}
-        userEdit={userEdit}
-        setUserEdit={setUserEdit}
+        clienteEdit={clienteEdit}
+        setClienteEdit={setClienteEdit}
       />
     </Box>
   );
 };
 
-export default UserPage;
+export default ClientesPage;

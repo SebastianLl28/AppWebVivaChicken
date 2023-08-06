@@ -13,8 +13,10 @@ import {
   CategoryPage,
   UserPage,
   PrivatePage,
+  Dashboard,
 } from "./pages/private";
 import ProductsAppPage from "./pages/private/productsPage/ProductsAppPage";
+import ClientesPage from "./pages/private/clientesPage/ClientesPage";
 
 const App = () => {
   return (
@@ -33,9 +35,10 @@ const App = () => {
         <Route element={<PrivatePage />}>
           <Route path="/userapp" element={<UserPage />} />
           <Route path="/productapp" element={<ProductsAppPage />} />
-          <Route path="/clientapp" element={<p>this is clientapp</p>} />
+          <Route path="/clientapp" element={<ClientesPage />} />
           <Route path="/categoryapp" element={<CategoryPage />} />
           <Route path="/cargosapp" element={<CargoPage />} />
+          <Route path="/dashboardapp" element={<Dashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>

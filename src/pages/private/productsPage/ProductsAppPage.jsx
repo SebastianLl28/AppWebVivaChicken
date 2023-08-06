@@ -6,7 +6,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import { useState } from "react";
 import ModalDialog from "./components/ModalDialog";
 import ModalEditDialog from "./components/ModalEditDialog";
-import { getProducts } from "../../../api/productsAxios";
+import { deleteProduct, getProducts } from "../../../api/productsAxios";
 
 const ProductsAppPage = () => {
   const { data, isLoading, isError } = useQuery(["getProduct"], getProducts);
@@ -15,9 +15,10 @@ const ProductsAppPage = () => {
     { field: "id", headerName: "Id", flex: 0.1 },
     { field: "nombre", headerName: "Nombre", flex: 0.2 },
     { field: "descripcion", headerName: "Descripción", flex: 0.3 },
+    { field: "categoria", headerName: "Categoria", flex: 0.2 , renderCell: (params) => params.row.categoria.nombre},
     { field: "precio", headerName: "Precio", flex: 0.1 },
     { field: "stock", headerName: "Stock", flex: 0.1 },
-    { field: "imagen", headerName: "Imagen", flex: 0.2 },
+    { field: "imagen", headerName: "Imagen", flex: 0.2, renderCell: (params) => <img src={params.row.imagen} alt={`icon for ${params.row.nombre}`} style={{ height: "90%", width: "auto" , margin: "auto"}} /> },
     {
       field: "actions",
       headerName: "Actions",

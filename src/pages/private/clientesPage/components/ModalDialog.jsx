@@ -11,15 +11,14 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { postProduct } from "../../../../api/productsAxios";
 import { useState } from "react";
-import { getCategorias } from "../../../../api/categoryAxios";
+import { postClientes } from "../../../../api/clientesAxios";
 
 const ModalDialog = ({ open, setOpen }) => {
   const handleClose = () => {
-    setAge("")
     setOpen(false);
     reset();
   };
@@ -29,16 +28,14 @@ const ModalDialog = ({ open, setOpen }) => {
     setAge(event.target.value);
   };
 
-  const { data: categorias, isLoading, error } = useQuery(["getCategorias"], getCategorias);
-
   //function form modal
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
 
   const createProduct = useMutation({
-    mutationFn: (data) => postProduct(data),
+    mutationFn: (data) => postClientes(data),
     onSuccess: () => {
-      queryClient.invalidateQueries("getProduct");
+      queryClient.invalidateQueries("getClientes");
     },
     onError: () => {
       alert("Error al crear usuario");
@@ -47,8 +44,7 @@ const ModalDialog = ({ open, setOpen }) => {
 
   const onSubmit = (data) => {
     try {
-      const producto = {imagen: data.imagen, descripcion: data.descripcion, nombre: data.nombre, precio: parseFloat(data.precio), stock: parseInt(data.stock), categoria: {id: data.id_categoria}}
-      createProduct.mutate(producto);
+      createProduct.mutate({ estado: true, ...data });
     } catch (error) {
       console.log(error);
     }
@@ -63,79 +59,96 @@ const ModalDialog = ({ open, setOpen }) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <DialogTitle textAlign="center" variant="h4" fontWeight="500">
-        Agregar Producto
+        Agregar Clientes
       </DialogTitle>
       <DialogContent>
         <Grid container spacing={1.5} width="100%" height="100%" margin={0}>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <TextField
               autoFocus
               margin="dense"
-              label="Nombre del producto"
+              label="Nombre"
               type="text"
               fullWidth
               variant="outlined"
               {...register("nombre", { required: true })}
             />
           </Grid>
+          <Grid item xs={6}>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Apellido"
+              type="text"
+              fullWidth
+              variant="outlined"
+              {...register("apellido", { required: true })}
+            />
+          </Grid>
           <Grid item xs={12}>
             <TextField
               autoFocus
               margin="dense"
-              label="Descripción"
+              label="direccion"
               type="text"
               fullWidth
               variant="outlined"
-              {...register("descripcion", { required: true })}
+              {...register("direccion", { required: true })}
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
               autoFocus
               margin="dense"
-              label="precio"
-              type="number"
+              label="dni"
+              type="text"
               fullWidth
               variant="outlined"
-              {...register("precio", { required: true })}
+              {...register("dni")}
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
               autoFocus
               margin="dense"
-              label="stock"
-              type="number"
+              label="ruc"
+              type="text"
               fullWidth
               variant="outlined"
-              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} 
-              {...register("stock", { required: true })}
+              {...register("ruc")}
             />
-          </Grid>
-          <Grid item xs={12}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
-            <Select
-              label="Categoria"
-              value={age}
-              {...register("id_categoria", { required: true })}
-              onChange={handleChange}
-            >
-              {categorias?.map( categoria => (
-                <MenuItem key={categoria.id} value={categoria.id}>{categoria.nombre}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
           </Grid>
           <Grid item xs={12}>
             <TextField
               autoFocus
               margin="dense"
-              label="Imagen"
+              label="email"
               type="text"
               fullWidth
               variant="outlined"
-              {...register("imagen", { required: true })}
+              {...register("email", { required: true })}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="contraseña"
+              type="text"
+              fullWidth
+              variant="outlined"
+              {...register("password", { required: true })}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="telefono"
+              type="text"
+              fullWidth
+              variant="outlined"
+              {...register("telefono", { required: true })}
             />
           </Grid>
         </Grid>

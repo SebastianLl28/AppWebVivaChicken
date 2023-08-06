@@ -2,16 +2,17 @@ import { Box } from "@mui/material";
 
 const Categories = () => {
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      border={1}
-      p={2}
-      borderRadius={3}
-    >
-      acá irán las categorías
-    </Box>
+    <div></div>
+    // <Box
+    //   display="flex"
+    //   justifyContent="center"
+    //   alignItems="center"
+    //   border={1}
+    //   p={2}
+    //   borderRadius={3}
+    // >
+    //   acá irán las categorías
+    // </Box>
   );
 };
 

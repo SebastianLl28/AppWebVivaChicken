@@ -14,10 +14,11 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { putUser } from "../../../../api/client/userAxios";
+import { getCargos } from "../../../../api/cargosAxios";
 
 const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
   const handleClose = () => {
@@ -27,10 +28,13 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
     reset();
   };
 
+
   const [age, setAge] = useState("");
   const handleChange = (event) => {
     setAge(event.target.value);
   };
+
+  const { data: cargos, isLoading, error } = useQuery(["getCargos"], getCargos);
 
   const {
     register,
@@ -54,8 +58,9 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
 
   const onSubmit = (data) => {
     try {
-      console.log(data);
-      // editUser.mutate({ id: userEdit.id, ...data });
+      const usuario = { id: userEdit.id, password: data.password, username: data.username, estado: data.estado, cargo: { id: data.id_cargo } }
+      // console.log(usuario);
+      editUser.mutate(usuario);
       handleClose();
     } catch (err) {
       console.log(err);
@@ -68,9 +73,9 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
         username: userEdit.username,
         password: userEdit.password,
         estado: userEdit.estado,
+        id_cargo: userEdit.cargo.id
       });
-      console.log("agasas");
-      console.log(userEdit);
+      setAge(userEdit.cargo.id);
     }
   }, [openEdit]);
 
@@ -107,8 +112,9 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
               {...register("password", { required: true })}
             />
           </Grid>
+
           <Grid item xs={12}>
-            {/* <FormControl fullWidth>
+            <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Cargo</InputLabel>
               <Select
                 label="Cargo"
@@ -116,11 +122,15 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, userEdit, setUserEdit }) => {
                 {...register("id_cargo", { required: true })}
                 onChange={handleChange}
               >
-                <MenuItem value="1">Usuario</MenuItem>
-                <MenuItem value="2">Administrador</MenuItem>
+                {cargos?.map((cargo) => (
+                  <MenuItem key={cargo.id} value={cargo.id}>
+                    {cargo.nombre}
+                  </MenuItem>
+                ))}
               </Select>
-            </FormControl> */}
+            </FormControl>
           </Grid>
+
           <Grid item xs={12}>
             <FormControlLabel
               control={

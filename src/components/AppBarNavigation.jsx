@@ -27,7 +27,7 @@ import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import { useState } from "react";
 import BadgeIcon from "@mui/icons-material/Badge";
 import { useLocation } from "react-router-dom";
-
+import DashboardIcon from "@mui/icons-material/Dashboard";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -114,6 +114,13 @@ const AppBarNavigation = ({ children }) => {
   const location = useLocation();
 
   const navigationAdmin = [
+    {
+      id: 0,
+      name: "dashboard",
+      title: "Dashboard",
+      path: "/dashboardapp",
+      icon: DashboardIcon,
+    },
     {
       id: 1,
       name: "cargos",

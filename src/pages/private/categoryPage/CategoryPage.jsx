@@ -14,7 +14,18 @@ const CategoryPage = () => {
   const columns = [
     { field: "id", headerName: "id", flex: 0.1 },
     { field: "nombre", headerName: "nombre", flex: 0.6 },
-    { field: "imagen", headerName: "imagen", flex: 0.2 },
+    {
+      field: "imagen",
+      headerName: "imagen",
+      flex: 0.2,
+      renderCell: (params) => (
+        <img
+          src={params.row.imagen}
+          alt={`icon for ${params.row.nombre}`}
+          style={{ height: "90%", width: "auto" }}
+        />
+      ),
+    },
     {
       field: "actions",
       headerName: "Actions",

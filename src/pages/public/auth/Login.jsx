@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Grid,
@@ -8,6 +9,11 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { postLogin } from "../../../api/authAxios";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Login = () => {
   const {
@@ -16,8 +22,35 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+
+  const [iserror, setIserror] = useState(false);
+
+  useEffect(() => {
+    if (iserror) {
+      setTimeout(() => {
+        setIserror(false);
+      }, 3000);
+    }
+  }, [iserror]);
+
+  const authLogin = useMutation({
+    mutationFn: (data) => postLogin(data),
+    onSuccess: () => {
+      navigate("/dashboardapp");
+    },
+    onError: () => {
+      setIserror(true);
+    },
+  });
+
   const onSubmit = (data) => {
-    console.log(data);
+    try {
+      authLogin.mutate(data);
+    } catch (error) {
+      console.log("ocurrio un error en Login");
+      console.log(error);
+    }
   };
 
   return (
@@ -37,6 +70,7 @@ const Login = () => {
         <Typography align="center" variant="h4" component="h1" fontWeight={500}>
           Iniciar Sesión
         </Typography>
+        {iserror && <Alert severity="error">usuario incorrecto</Alert>}
         <Grid
           container
           rowSpacing={3}
@@ -48,19 +82,16 @@ const Login = () => {
           <Grid item xs={12}>
             <TextField
               id="outlined-basic"
-              label="Correo"
+              label="nombre de usuario"
               variant="outlined"
-              error={errors.email ? true : false}
+              error={errors.username ? true : false}
               helperText={
-                (errors.email?.type === "required" &&
-                  "El correo es necesario") ||
-                (errors.email?.type === "pattern" &&
-                  "El formato debe ser correo")
+                errors.username?.type === "required" &&
+                "El username es necesario"
               }
               fullWidth
-              {...register("email", {
+              {...register("username", {
                 required: true,
-                pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
               })}
             />
           </Grid>

@@ -16,5 +16,5 @@ export const deleteUser = async (id) => {
 };
 
 export const putUser = async (user) => {
-  await instanceUser.put(`/delete/${user.id}`, user);
+  await instanceUser.put(`/update/${user.id}`, user);
 };
