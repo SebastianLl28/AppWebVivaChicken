@@ -160,7 +160,7 @@ const ModalEditDialog = ({ openEdit, setOpenEdit, productEdit, setProductEdit })
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button type="submit">Agregar</Button>
+        <Button type="submit">Actualizar</Button>
       </DialogActions>
     </Dialog>
   );

@@ -83,7 +83,7 @@ const ClientesPage = () => {
         onClick={handleOpen}
         sx={{ marginBottom: "1rem" }}
       >
-        Agergar Clienteo
+        Agergar Cliente
       </Button>
       <DataGrid
         columns={columns}

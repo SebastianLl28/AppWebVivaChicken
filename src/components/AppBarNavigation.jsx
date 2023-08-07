@@ -28,6 +28,7 @@ import { useState } from "react";
 import BadgeIcon from "@mui/icons-material/Badge";
 import { useLocation } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import ApartmentIcon from '@mui/icons-material/Apartment';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -158,10 +159,17 @@ const AppBarNavigation = ({ children }) => {
     },
     {
       id: 6,
+      name: "locales",
+      title: "Gestion de Locales",
+      path: "/localapp",
+      icon: ApartmentIcon,
+    },
+    {
+      id: 7,
       name: "logout",
       path: "/",
       icon: LogoutIcon,
-    },
+    }
   ];
 
   return (

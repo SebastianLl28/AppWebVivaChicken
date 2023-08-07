@@ -4,17 +4,11 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { postProduct } from "../../../../api/productsAxios";
-import { useState } from "react";
 import { postClientes } from "../../../../api/clientesAxios";
 
 const ModalDialog = ({ open, setOpen }) => {
@@ -23,10 +17,6 @@ const ModalDialog = ({ open, setOpen }) => {
     reset();
   };
 
-  const [age, setAge] = useState("");
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
 
   //function form modal
   const { register, handleSubmit, reset } = useForm();

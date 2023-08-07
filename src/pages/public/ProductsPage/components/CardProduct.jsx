@@ -78,5 +78,9 @@ export default CardProduct;
 const Image = styled("img")`
   width: 100%;
   height: auto;
-  object-fit: contain;
+  min-height: 18rem;
+  max-height: 18rem;
+  background-position: center;
+  background-size: cover;
+  object-fit: cover;
 `;
