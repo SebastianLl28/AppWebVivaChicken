@@ -1,5 +1,6 @@
 import { Alert, Snackbar } from "@mui/material";
 import { useState } from "react";
+import { Header } from "./components/Header";
 
 const Dashboard = () => {
   const [open, setOpen] = useState(true);
@@ -18,7 +19,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <div>this is a page dashboardh</div>
+      <Header />
       <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
           Inicio sesión correctamente
