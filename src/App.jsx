@@ -17,6 +17,7 @@ import {
 } from "./pages/private";
 import ProductsAppPage from "./pages/private/productsPage/ProductsAppPage";
 import ClientesPage from "./pages/private/clientesPage/ClientesPage";
+import { LocalAppPage } from "./pages/private/localPage/LocalAppPage";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/categoryapp" element={<CategoryPage />} />
           <Route path="/cargosapp" element={<CargoPage />} />
           <Route path="/dashboardapp" element={<Dashboard />} />
+          <Route path="/localapp" element={<LocalAppPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
